@@ -52,7 +52,8 @@
 	}
 	
 	$.fn.jVertTabs = function(attr,options) {
-	
+	  args = arguments;
+	  console.log('jVertTabs: function called');
 		var elmId = $(this).attr('id');
 	
 		var opts;
@@ -68,27 +69,23 @@
 		var tabColumnHeight = 0;
 	
 		// Check to see if an object is a plain object (created using "{}" or "new Object").
-		if($.isPlainObject(attr)){
-			
+		if ($.isPlainObject(attr)) {			
 			// This block will be executed when we call our plugin with options:
 			// $("#elmId").jVertTabsDev({
 			// 		selected: 1
-			// });
-			
+			// });			
 			// extend default options with any that were provided by user
 			options = attr;
 			opts = $.extend(defaults, options);
 			allTabOptions[elmId] = opts;
 			
-		}else{
-			
+		} else {			
 			// This block will be executed when we call our plugin like so:
 			// $("#elmId").jVertTabsDev();
 			// Or..
-			// $("#elmId").jVertTabsDev('active',true);
-		
+			// $("#elmId").jVertTabsDev('active',true);		
 			if(attr != null && options != null){
-				if(attr == "selected"){
+				if (attr == "selected") {
 					//alert("a attr: " + attr + ", options: " + options);
 					var thisTabOpts = allTabOptions[elmId];
 					//alert(elmId + " before: " + thisTabOpts.selected);
@@ -99,48 +96,40 @@
 					doSelectTab($(this),options);
 					return;
 				}
-			}else{
-			
+			} else {
 				//alert("b attr: " + attr + ", options: " + options);
-			
 				// extend default options with any that were provided by user
 				opts = $.extend(defaults, options);
 				allTabOptions[elmId] = opts;			
-			
 			}
 		}
-		
 		// apply jVertTabs to all matching elements
-        return this.each(function() {
-		
+    return this.each(function() { 
 			/* add css classes to elements */
 			var tabRoot = $(this);
-			setStyle(tabRoot);
-		
+			setStyle(tabRoot);		           
+      tr = tabRoot;
 			/* references to tab column and tab content column */
 			var tabColumn = tabRoot.children("div.vtabs-tab-column");
 			var tabContentColumn = tabRoot.children("div.vtabs-content-column");
-			//tabColumnHeight = tabColumn.height();
-			
+			//tabColumnHeight = tabColumn.height();			
 			/* locate all li elements  */
-			$(this).find(".vtabs-tab-column > ul > li").each(function(i){
-				
+			$(this).find(".vtabs-tab-column > ul > li").each(function(i) {				
 				/* set css for initial state of tabs. first tab is open, the rest are closed.*/
-				if(i < 1){
+				if (i < 1) {
 					$(this).addClass("open");
 					$(this).find("a").addClass("open");
-				}else{
+				} else {
 					$(this).addClass("closed");
 					$(this).find("a").addClass("closed");
-				}
-				
+				}				
 				/* add click events to all li elements */
 				$(this).click(function() {
 					handleTabClick($(this),i,tabRoot,true);
 					return false;
 				});
 			});
-			
+			/* 
 			/* set initial state of tab content panels. first panel is open, the rest are closed */
 			$(this).children(".vtabs-content-column > div.vtabs-content-panel").each(function(i){
 				if(i>0){
@@ -222,15 +211,18 @@
 			var linkValue = link.attr("href");
 			if(!linkValue.startsWith("#")){
 				// set spinner message on link if we have a spinner value
-				if(opts.spinner != ""){
+				console.log('handleTabClick: opts = ' + opts + ' and opts == undefined ' + (opts == undefined));
+				if(opts != undefined && opts.spinner != ""){  				  
 					link.text(opts.spinner);
 				}
 				// make ajax call to get data
 				$.ajax({
 					url: linkValue,
-					type: "POST",
+					type: "GET",
 					//dataType: "html",
-					success: function(data) {
+					success: function(data) { 
+					  // report if successful:
+					  console.log("Successful retrieval from " + linkValue);
 						// set data
 						openContentPanel.html(data);				
 						// open panel
@@ -259,6 +251,7 @@
 			var thisTabOpts = allTabOptions[elmId];
 			if(thisTabOpts != null && doSelectedCallBack){
 				if(jQuery.isFunction(thisTabOpts.select)){
+				  console.log('handleTabClick: li Index = ' + liIndex);
 					thisTabOpts.select.call(this,liIndex);
 				}
 			}		
