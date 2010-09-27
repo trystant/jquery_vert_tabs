@@ -1,0 +1,560 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Custom Tab Example</title>
+
+<!-- Incude CSS for JQuery Vertical Tabs -->
+<link rel="stylesheet" type="text/css" href="css/jquery-jvert-tabs-1.1.4.css" />
+
+<!-- Include JQuery Core-->
+<script type="text/javascript" src="js/jquery-1.4.1.min.js"></script>
+
+<!-- Include JQuery Vertical Tabs plugin -->
+<script type="text/javascript" src="js/jquery-jvert-tabs-1.1.4.js"></script>
+
+</head>
+<body>
+
+<h1>jVertTabs Tab Example</h1>
+
+<style type="text/css" media="screen">
+.code, .codeHead {
+	background-color: #dddddd;
+	color: #000000;
+	font: 12px helvetica, verdana, georgia, times, arial, sans-serif;
+	line-height: 18px;
+	padding: 3px;
+	margin: 0px;
+}
+.codeHead {
+	background-color: #bbbbbb;
+}
+textarea.code {
+	width: 100%; height: 300px; padding:0px; margin:0px;
+	font: 12px helvetica, verdana, georgia, times, arial, sans-serif;
+	font-family:monospace;
+	background-color: #efefef; color: #222222;
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$("#vtabs1").jVertTabs();
+	$("#vtabs2").jVertTabs({
+		selected: 1
+	});
+	$("#vtabs3").jVertTabs({
+		select: function(index){
+			alert("You clicked tab " + index);
+		}
+	});
+	$("#vtabs4").jVertTabs();
+	$("#vtabs5").jVertTabs({
+		equalHeights: true
+	});
+	$("#vtabs6").jVertTabs({
+		select: function(index){
+			alert("tab " + index + " opened.");
+		}
+	});
+	$("#vtabs6").jVertTabs('selected',3); // select 4th tab, 0-based.
+	$("#vtabs7").jVertTabs({
+		selected: 1
+	});
+	$("#vtabs8").jVertTabs();
+	$("#vtabs8").jVertTabs('selected',2); // select 3rd tab, 0-based.
+		
+	// add click events for open tab buttons
+	$("input[id^=openTab]").each(function(index){
+		$(this).click(function(){
+			openTab("#vtabs6",index);
+			return false;
+		});
+	});	
+	function openTab(tabId,index){
+		$(tabId).jVertTabs('selected',index);
+	}
+});
+</script>
+
+<h3>Default behavior</h3>
+
+Basic set of vertical tabs<br><br>
+
+<!-- begin vertical tabs demo -->
+<div id="vtabs1">
+	<div>
+		<ul>
+			<li><a href="#vtabs-content-a">Tab 1: Simple</a></li>
+			<li><a href="#vtabs-content-b">Tab 2: This one is really long</a></li>
+			<li><a href="#vtabs-content-c">Tab 3: This one is <br>fatter.</a></li>
+		</ul>
+	</div>
+	<div>
+		<div id="#vtabs-content-a">
+			Panel 1		
+		</div>
+		<div id="#vtabs-content-b">
+			Panel 2
+		</div>
+		<div id="#vtabs-content-c">
+			Panel 3
+		</div>	
+	</div>
+</div>
+
+<br>
+
+<div class="codeHead">Example Code: Default behavior</div>
+<textarea class="code" style="height: 475px;">
+<script type="text/javascript">
+$(document).ready(function(){
+	// default behavior.
+	$("#vtabs1").jVertTabs();
+});
+</script>
+<div id="vtabs1">
+	<div>
+		<ul>
+			<li><a href="#vtabs-content-a">Tab 1</a></li>
+			<li><a href="#vtabs-content-b">Tab 2</a></li>
+			<li><a href="#vtabs-content-c">Tab 3</a></li>
+		</ul>
+	</div>
+	<div>
+		<div id="#vtabs-content-a">
+			<p>This is panel 1</p>		
+			<p>Some text on panel 1</p>	
+		</div>
+		<div id="#vtabs-content-b">
+			<p>This is panel 2</p>
+			<p>Some text on panel 2</p>	
+		</div>
+		<div id="#vtabs-content-c">
+			<p>This is panel 3</p>
+			<p>Some text on panel 3</p>	
+		</div>	
+	</div>
+</div>
+</textarea>
+
+<br>
+
+<h3>Preselect 2nd Tab</h3>
+The second tab will be open when tabs are initialized.<br><br>
+<div id="vtabs2">
+	<div>
+		<ul>
+			<li><a href="#vtabs-content-a">Tab 1</a></li>
+			<li><a href="#vtabs-content-b">Tab 2</a></li>
+			<li><a href="#vtabs-content-c">Tab 3</a></li>
+		</ul>
+	</div>
+	<div>
+		<div id="#vtabs-content-a">
+			<p>This is panel 1</p>		
+			<p>Some text on panel 1</p>	
+		</div>
+		<div id="#vtabs-content-b">
+			<p>This is panel 2</p>
+			<p>I am pre selected!</p>	
+		</div>
+		<div id="#vtabs-content-c">
+			<p>This is panel 3</p>
+			<p>Some text on panel 3</p>	
+		</div>	
+	</div>
+</div>
+
+<br>
+
+<div class="codeHead">Example Code: Pre selecting tabs</div>
+<textarea class="code" style="height: 200x;">
+<script type="text/javascript">
+$(document).ready(function(){
+	// tab index is 0-based. first tab is 0, second tab is 1, etc...
+	$("#vtabs2").jVertTabs({
+		selected: 1
+	});
+});
+</script>
+</textarea>
+
+<br>
+
+<h3>Selected Tab Callback Function</h3>
+Get the index of the selected tab using a callback function.<br><br>
+<div id="vtabs3">
+	<div>
+		<ul>
+			<li><a href="#vtabs-content-a">Tab 1</a></li>
+			<li><a href="#vtabs-content-b">Tab 2</a></li>
+			<li><a href="#vtabs-content-c">Tab 3</a></li>
+		</ul>
+	</div>
+	<div>
+		<div id="#vtabs-content-a">
+			<p>This is panel 1</p>		
+			<p>The quick brown fox jumped over the lazy dog</p>	
+		</div>
+		<div id="#vtabs-content-b">
+			<p>This is panel 2</p>
+			<p>The quick brown fox jumped over the lazy dog</p>		
+		</div>
+		<div id="#vtabs-content-c">
+			<p>This is panel 3</p>
+			<p>The quick brown fox jumped over the lazy dog</p>		
+		</div>	
+	</div>
+</div>
+
+<br>
+
+<div class="codeHead">Example Code: Selected tab callback function</div>
+<textarea class="code" style="height: 200px;">
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#vtabs3").jVertTabs({
+		select: function(index){
+			alert("You clicked tab " + index);
+		}
+	});
+});
+</script>
+</textarea>
+
+<br>
+
+<h3>AJAX Example (Will not work in Chrome unless hosted from your domain)</h3>
+Provide a link and a request will be made using jQuery $ajax to fetch the data<br><br>
+<div id="vtabs4">
+	<div>
+		<ul>
+			<li><a href="#vtabs-content-a">Tab 1</a></li>
+			<li><a href="#vtabs-content-b">Tab 2</a></li>
+			<li><a href="sample/sample.html">Tab 3 (AJAX)</a></li>
+		</ul>
+	</div>
+	<div>
+		<div id="#vtabs-content-a">
+			<p>This is panel 1</p>		
+			<p>This content is static</p>	
+		</div>
+		<div id="#vtabs-content-b">
+			<p>This is panel 2</p>
+			<p>The quick brown fox jumped over the lazy dog</p>
+			<p>This content is static</p>			
+		</div>
+		<div id="#vtabs-content-c">
+			<!-- content in this panel will be loaded dynamically via ajax.-->
+		</div>	
+	</div>
+</div>
+
+<br>
+
+<div class="codeHead">Example Code: Dynamic content via AJAX</div>
+<textarea class="code" style="height: 400px;">
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#vtabs4").jVertTabs();
+});
+</script>
+<div id="vtabs4">
+	<div>
+		<ul>
+			<li><a href="#vtabs-content-a">Tab 1</a></li>
+			<li><a href="#vtabs-content-b">Tab 2</a></li>
+			<li><a href="sample/sample.html">Tab 3</a></li>
+		</ul>
+	</div>
+	<div>
+		<div id="#vtabs-content-a">
+			<p>This is panel 1</p>		
+			<p>This content is static</p>	
+		</div>
+		<div id="#vtabs-content-b">
+			<p>This is panel 2</p>
+			<p>The quick brown fox jumped over the lazy dog</p>
+			<p>This content is static</p>			
+		</div>
+		<div id="#vtabs-content-c">
+			<!-- content in this panel will be loaded dynamically via ajax.-->
+		</div>	
+	</div>
+</div>
+</textarea>
+
+<br>
+
+<h3>Equalize Heights</h3>
+Make all panels the same height. The min-height of all panels will be set to that of the tallest one.<br><br>
+<div id="vtabs5">
+	<div>
+		<ul>
+			<li><a href="#vtabs-content-a">Little Content</a></li>
+			<li><a href="#vtabs-content-b">Medium Content</a></li>
+			<li><a href="#vtabs-content-c">Lots of Content</a></li>
+		</ul>
+	</div>
+	<div>
+		<div id="#vtabs-content-a">
+			<p>This is panel 1</p>		
+			<p>
+			This is a short sentence
+			</p>
+		</div>
+		<div id="#vtabs-content-b">
+			<p>This is panel 2</p>
+			<p>
+			The quick brown fox jumped over the lazy dog<br>
+			The quick brown fox jumped over the lazy dog<br>
+			The quick brown fox jumped over the lazy dog<br>
+			The quick brown fox jumped over the lazy dog<br>
+			</p>		
+		</div>
+		<div id="#vtabs-content-c">
+			<p>This is panel 3</p>
+			<p>
+			A bene placito - At one's pleasure<br>
+			A capite ad calcem - From head to heel<br>
+			A cappella - In church [style] - i.e. Vocal music only<br>
+			A contrario - From a contrary position<br>
+			A cruce salus - From the cross comes salvation<br>
+			A Deo et Rege - From God and the King<br>
+			A fortiori - With yet stronger reason<br>
+			A fronte praecipitium a tergo lupi - A precipice in front, wolves behind (between a rock and a hard place)<br>
+			A mari usque ad mare - From sea to sea (Motto of Canada)<br>
+			A mensa et thoro - From board and bed (legal separation)<br>
+			A pedibus usque ad caput - From feet to head<br>
+			A posse ad esse - From possibility to actuality<br>
+			A posteriori - From what comes after. Inductive reasoning based on observation, as opposed to deductive, or a priori<br>
+			A priori - From what comes before<br>
+			A verbis ad verbera - From words to blows<br>
+			Ab absurdo - From the absurd (establishing the validity of your argument by pointing out the absurdity of your opponent's position)<br>
+			Ab aeterno - From the beginning of time<br>
+			Ab asino lanam - Wool from an ass, blood from a stone impossible<br>
+			</p>		
+		</div>	
+	</div>
+</div>
+
+<br>
+
+<div class="codeHead">Example Code: Equalize Panel Heights</div>
+<textarea class="code" style="height: 200px;">
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#vtabs5").jVertTabs({
+		equalHeights: true
+	});
+});
+</script>
+</textarea>
+
+<br>
+
+<h3>Set Selected Tab</h3>
+Set the selected tab after initialization.<br><br>
+<input type="button" name="" id="openTabA" value="Open Tab A">
+<input type="button" name="" id="openTabB" value="Open Tab B">
+<input type="button" name="" id="openTabC" value="Open Tab C">
+<input type="button" name="" id="openTabD" value="Open Tab D">
+<input type="button" name="" id="openTabE" value="Open Tab E">
+<br><br>
+<div id="vtabs6">
+	<div>
+		<ul>
+			<li><a href="#vtabs-content-a">Tab A</a></li>
+			<li><a href="#vtabs-content-b">Tab B</a></li>
+			<li><a href="#vtabs-content-c">Tab C</a></li>
+			<li><a href="#vtabs-content-d">Tab D</a></li>
+			<li><a href="#vtabs-content-e">Tab E</a></li>
+		</ul>
+	</div>
+	<div>
+		<div id="#vtabs-content-a">
+			This is panel A	<br><br>	
+			
+			Natura nihil fit in frustra - Nature does nothing in vain<br>
+			Natura, artis magistra - Nature, the mistress of art<br>
+			Naturam expellas furca, tamen usque recurret - You can drive nature out with a pitchfork but she always comes back<br>
+			Navigare necesse est - To sail is necessary<br>
+			Ne auderis delere orbem rigidum meum! - Don't you dare erase my hard disk!<br>
+			Ne cede malis - Yield not to evils<br>
+			Ne feceris ut rideam - Don't make me laugh<br>
+			Ne humanus crede - Trust no human<br>
+			Ne nimium - Not too much<br>
+			Ne plus ultra - No further. Impassable obstacle<br>
+			Ne quid nimis - Nothing in excess. (Terence)<br>
+			Nec laudas nisi mortuos poetas: tanti non est, ut placeam, perire - If only dead poets are praised, I'd rather go unsung<br>
+			Nec mortem effugere quisquam nec amorem potest - No one is able to flee from death or love<br>
+			Nec possum tecum vivere, nec sine te - I am able to live / I can live neither with you, nor without you. (Martial)<br>
+			Nec verbum verbo curabis reddere fidus interpres - As a true translator you will take care not to translate word for word. (Horace)<br>
+			
+		</div>
+		<div id="#vtabs-content-b">
+			<p>This is panel B</p>
+			<p>
+			E contrario - From a contrary position<br>
+			E pluribus unum - From many, one (motto of the USA)<br>
+			E re nata - As circumstances dictate<br>
+			E vestigio - From where one stands<br>
+			Ecce homo - Behold the man<br>
+			Ecce signum - Behold the proof<br>
+			Editio princeps - First printed edition<br>
+			Ego et rex meus - I and my King<br>
+			Ego me bene habeo - With me all is well. (last words) (Burrus)<br>
+			Ego nolo caesar esse - I don't want to be Caesar. (Florus)<br>
+			Ego spem pretio non emo - I do not purchase hope for a price. (I do not buy a pig in a poke.)<br>
+			Ego - Consciousness of one's own identity<br>
+			Eheu fugaces labuntur anni - Alas, the fleeting years slip by. (Horace)<br>
+			Eheu, litteras istas reperire non possum - Unfortunately, I can't find those particular documents<br>
+			Eiusdem generis - Of the same kind<br>
+			</p>
+		</div>
+		<div id="#vtabs-content-c">
+			<p>This is panel C</p>
+			<p>
+			Alis volat propiis - She flies with her own wings (state motto of Oregon)<br>
+			Alma Mater - Nourishing mother. (One's old school or university)<br>
+			Alter ego - Other 'I' or 'Other Self'<br>
+			Alter ipse amicus - A friend is another self<br>
+			Alterum ictum faciam - I'm going to take a mulligan<br>
+			Altissima quaeque flumina minimo sono labi - The deepest rivers flow with the least sound. (still waters run deep)<br>
+			Alumnus - Nursling (former pupil)<br>
+			Amantes sunt amentes - Lovers are lunatics<br>
+			Amantium irae amoris integratio est - The quarrels of lovers are the renewal of love. (Terence)<br>
+			</p>
+		</div>
+		<div id="#vtabs-content-d">
+			<p>This is panel D</p>
+			<p>
+			Aetatis (aet.) - Age<br>
+			Aeternum vale - Farewell forever<br>
+			Affidavit - A sworn written statement usable as evidence in court<br>
+			Age quod agis - Do what you do well, pay attention to what you are doing<br>
+			Age. Fac ut gaudeam - Go ahead. Make my day!<br>
+			Agenda - Things to be done<br>
+			Agnus Dei - The Lamb of God<br>
+			Aio, quantitas magna frumentorum est - Yes, that is a very large amount of corn<br>
+			Alea iacta est - The die has been cast. (Caesar)<br>
+			</p>		
+		</div>	
+		<div id="#vtabs-content-e">
+			<p>This is panel E</p>
+			<p>
+			Adversus incendia excubias nocturnas vigilesque commentus est - Against the dangers of fires, he (Augustus) conceived of the idea of night guards and watchmen<br>
+			Adversus solem ne loquitor - Don't speak against the sun (don't waste your time arguing the obvious)<br>
+			Advocatus diaboli - The devil's advocate<br>
+			Aegrescit medendo - The disease worsens with the treatment. The remedy is worse than the disease<br>
+			Aegri somnia - A sick man's dreams (Horace)<br>
+			Aegroto, dum anima est, spes esse dicitur - It is said that for a sick man, there is hope as long as there is life<br>
+			Aequam memento rebus in arduis servare mentem - Remember when life's path is steep to keep your mind even. (Horace)<br>
+			Aeronavis abstractio a prestituto cursu - Hijacking<br>
+			</p>
+		</div>			
+	</div>
+</div>
+
+<br>
+
+<div class="codeHead">Example Code: Set the selected tab after initialization.</div>
+<textarea class="code" style="height: 300px;">
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#vtabs6").jVertTabs();
+	$("#vtabs6").jVertTabs('selected',3); // select 4th tab (tab D), 0-based.
+	// add click events for open tab buttons
+	$("input[id^=openTab]").each(function(index){
+		$(this).click(function(){
+			openTab("#vtabs6",index);
+			return false;
+		});
+	});	
+	function openTab(tabId,index){
+		$(tabId).jVertTabs('selected',index);
+	}	
+});
+</script>
+</textarea>
+
+<br>
+
+<h3>Nested Tabs</h3>
+Here we nest one set of tabs inside the other. The first set we pre-select the second tab on initialization. 
+On the inner tabs we pre-select the last tab after initialization using a setter function.<br><br>
+<div id="vtabs7">
+	<div>
+		<ul>
+			<li><a href="#vtabs-content-a">Tab One</a></li>
+			<li><a href="#vtabs-content-b">Tab Two is....<br>thicker</a></li>
+			<li><a href="#vtabs-content-c">Tab Three is much much longer</a></li>
+		</ul>
+	</div>
+	<div>
+		<div id="#vtabs-content-a">
+			<p>This is panel 1</p>		
+			<p>The quick brown fox jumped over the lazy dog</p>	
+		</div>
+		<div id="#vtabs-content-b">
+			<div style="margin:0px; padding: 5px;">
+		
+				<b>This is panel 2</b>
+
+				<p>This panel has nested tabs</p>	
+				
+				<div id="vtabs8" style="border: 0px;">
+					<div>
+						<ul>
+							<li><a href="#vtabs-content-a">Tab A</a></li>
+							<li><a href="#vtabs-content-b">Tab B</a></li>
+							<li><a href="#vtabs-content-c">Tab C</a></li>
+						</ul>
+					</div>
+					<div>
+						<div id="#vtabs-content-a">
+							<p>This is panel A</p>		
+							<p>The quick brown fox jumped over the lazy dog</p>
+						</div>
+						<div id="#vtabs-content-b">
+							<p>This is panel B</p>
+							<p>The quick brown fox jumped over the lazy dog</p>
+							<p>The quick brown fox jumped over the lazy dog</p>
+						</div>
+						<div id="#vtabs-content-c">
+							<p>This is panel C</p>
+							<p>The quick brown fox jumped over the lazy dog</p>
+							<p>The quick brown fox jumped over the lazy dog</p>
+						</div>	
+					</div>
+				</div>
+		
+			</div>
+		</div>
+		<div id="#vtabs-content-c">
+			<p>This is panel 3</p>
+			<p>The quick brown fox jumped over the lazy dog</p>		
+		</div>	
+	</div>
+</div>
+
+<br>
+
+<div class="codeHead">Example Code: Equalize Panel Heights</div>
+<textarea class="code" style="height: 200px;">
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#vtabs7").jVertTabs({
+		selected: 1
+	});
+	$("#vtabs8").jVertTabs();
+	$("#vtabs8").jVertTabs('selected',2);
+});
+</script>
+</textarea>
+
+</body>
+</html>
