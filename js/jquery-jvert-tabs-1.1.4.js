@@ -137,7 +137,7 @@
 				}		
 			});
 			
-			/* open specified tab on itialization. this is customizable via the 'selected' option */
+			/* open specified tab on initialization. this is customizable via the 'selected' option */
 			var thisTabOpts = allTabOptions[elmId];
 			if(thisTabOpts != null){
 				var preSelectLi = tabColumn.find("ul > li").eq(thisTabOpts.selected);
