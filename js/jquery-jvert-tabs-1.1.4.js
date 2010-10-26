@@ -58,12 +58,13 @@
 	
 		var opts;
 		var defaults = {
+			equalHeights: false,      
+			method: 'POST',
 			selected: 0,
 			select: function(index){
 				//alert("Tab " + index + " clicked.");
 			},
-			spinner: "Retrieving data...",
-			equalHeights: false
+			spinner: "Retrieving data..."
 		};
 
 		var tabColumnHeight = 0;
@@ -115,13 +116,20 @@
 			//tabColumnHeight = tabColumn.height();			
 			/* locate all li elements  */
 			$(this).find(".vtabs-tab-column > ul > li").each(function(i) {				
-				/* set css for initial state of tabs. first tab is open, the rest are closed.*/
-				if (i < 1) {
+				/* set css for initial state of tabs. 
+				   Last tab is open, the rest are closed
+				*/                           
+				console.log("jVertTabs: i = " + i + " and size of tabs = " + $(this).size());
+				if ($(this).find('a').text() == "New Opportunity") {          
+				  console.log('jVertTabs: open style on this tab');
 					$(this).addClass("open");
 					$(this).find("a").addClass("open");
 				} else {
-					$(this).addClass("closed");
-					$(this).find("a").addClass("closed");
+				  console.log('jVertTabs: closed style on this tab');    
+				  if ($(this).find('a').text() != "New Opportunity") {				    
+  					$(this).addClass("closed");
+  					$(this).find("a").addClass("closed");
+  			  }
 				}				
 				/* add click events to all li elements */
 				$(this).click(function() {
@@ -137,7 +145,7 @@
 				}		
 			});
 			
-			/* open specified tab on initialization. this is customizable via the 'selected' option */
+			/* open specified tab on itialization. this is customizable via the 'selected' option */
 			var thisTabOpts = allTabOptions[elmId];
 			if(thisTabOpts != null){
 				var preSelectLi = tabColumn.find("ul > li").eq(thisTabOpts.selected);
@@ -197,7 +205,7 @@
 			li.find("a").removeClass("closed").addClass("open");		
 				
 			/* hide all content panels and get reference to panel that needs to be showed. */
-			var openContentPanel;
+			//openContentPanel;
 			tabContentCol.children("div.vtabs-content-panel").each(function(i){
 				$(this).hide();
 				if(i == liIndex){
@@ -218,7 +226,7 @@
 				// make ajax call to get data
 				$.ajax({
 					url: linkValue,
-					type: "GET",
+					type: opts.ajaxHttpMethod || "POST",
 					//dataType: "html",
 					success: function(data) { 
 					  // report if successful:
@@ -325,7 +333,8 @@
 		 *
 		 * tabRoot - reference to the root tab element.
 		 */
-		function setStyle(tabRoot){
+		function setStyle(tabRoot){      
+		  console.log('jvert-tabs:setStyle')
 			tabRoot.addClass("vtabs");
 			tabRoot.children("div").eq(0).addClass("vtabs-tab-column");
 			tabRoot.children("div").eq(1).addClass("vtabs-content-column");
