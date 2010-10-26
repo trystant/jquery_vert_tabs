@@ -15,4 +15,8 @@ A few changes have been made to the jquery-vert-tabs plugin in order to work wit
 
 * A new option, "ajaxHttpMethod" that allows you to set the HTTP method of the AJAX request. Defaults to POST if no method is selected.
 
+* The criteria for selecting the 'open' tab has been changed. It initially was the first tab, but for this engagement, the last tab needed to be open. The logic was specific to the project TODO: change the criteria for making an open tab configurable, if possible. This is on line 123 of jquery-jvery-tabs.js
+                                                                                                                                                                                            
+* A lot of 'console.log' statements have been added to the code for debugging purposes. TODO: Remove the console.log statements and possibly implement JavaScript Debug http://benalman.com/code/projects/javascript-debug/
+ 
 
