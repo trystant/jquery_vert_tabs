@@ -59,7 +59,7 @@
 		var opts;
 		var defaults = {
 			equalHeights: false,      
-			method: 'POST',
+			ajaxHttpMethod: 'POST',
 			selected: 0,
 			select: function(index){
 				//alert("Tab " + index + " clicked.");
